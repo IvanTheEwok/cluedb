@@ -1,9 +1,13 @@
 #Imports
 from flask import Flask, current_app
 from flask_bootstrap import Bootstrap
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 from config import Config
 
 #Create variable for extensions
+db = SQLAlchemy()
+migrate = Migrate()
 bootstrap = Bootstrap()
 
 #Application factory
@@ -13,6 +17,8 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
 
     #Initiate extensions
+    db.init_app(app)
+    migrate.init_app(app, db)
     bootstrap.init_app(app)
 
     #Import blueprints
@@ -27,4 +33,4 @@ def create_app(config_class=Config):
 
     return app
 
-#from app import models
+from app import models
