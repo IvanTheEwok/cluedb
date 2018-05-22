@@ -1,0 +1,12 @@
+
+app/__init__.pyc
+*.pyc
+config.py
+config.py
+config.py
+app.db
+migrations/versions/0d5089ef7dde_.py
+migrations/README
+migrations/alembic.ini
+migrations/script.py.mako
+migrations/env.py
