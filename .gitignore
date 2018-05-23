@@ -10,3 +10,6 @@ migrations/README
 migrations/alembic.ini
 migrations/script.py.mako
 migrations/env.py
+migrations/versions/5cbc79493feb_.py
+migrations/versions/321972f8346c_.py
+migrations/versions/e89cdcc26cf0_.py
