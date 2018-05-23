@@ -4,6 +4,7 @@ from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_moment import Moment
 from config import Config
 
 #Create variable for extensions
@@ -13,6 +14,7 @@ bootstrap = Bootstrap()
 login = LoginManager()
 login.login_view = "auth.login"
 login.login_message = "Please log in to access this page."
+moment = Moment()
 
 #Application factory
 def create_app(config_class=Config):
@@ -25,6 +27,7 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     bootstrap.init_app(app)
     login.init_app(app)
+    moment.init_app(app)
 
     #Import blueprints
     from app.errors import bp as errors_bp
