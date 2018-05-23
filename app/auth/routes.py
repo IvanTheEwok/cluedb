@@ -13,7 +13,7 @@ def login():
     form = LoginForm() #The form from app.auth.forms
 
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first() #Check the database
+        user = User.query.filter_by(username=form.username.data.lower()).first() #Check the database
         if user is None or not user.check_password(form.password.data): #Compares the input with the database
             flash("Invalid username or password.")
             return redirect(url_for("auth.login"))
@@ -39,15 +39,15 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for("main.index"))
     
-    form = RegistrationForm()
+    form = RegistrationForm() #The registration form from auth/forms.py
 
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data) #Sets the username and email
+        user = User(username=form.username.data.lower(), email=form.email.data) #Sets the username and email
         user.set_password(form.password.data) #Sets the password
         db.session.add(user)
-        db.session.commit()
+        db.session.commit() #Commit to database
         flash("Congratulations, you are now a registered user!")
-        return redirect(url_for("auth.login"))
+        return redirect(url_for("auth.login")) #Registered user directed to login
     
     return render_template(
         "auth/register.html",
