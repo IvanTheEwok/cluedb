@@ -17,3 +17,27 @@ class EditProfileForm(FlaskForm):
             user = User.query.filter_by(username=self.username.data).first()
             if user is not None:
                 raise ValidationError("Username already in use")
+
+class EditProfileFormAdmin(FlaskForm):
+    user_id = StringField("User ID", validators=[DataRequired()])
+    user_email = StringField("User Email")
+    username = StringField("Username")
+    about_me = TextAreaField("About me")
+    submit = SubmitField("Submit")
+    
+    def validate_username(self, username): #checks if the username is in use
+        if self.username:
+            user = User.query.filter_by(username=self.username.data).first()
+            if user is not None:
+                raise ValidationError("Username aldready in use")
+    
+    def validate_user_id(self, user_id): #Checks if the uid exists
+        user = User.query.filter_by(id=self.user_id.data).first()
+        if user is None:
+            raise ValidationError("User_ID does not exist.")
+    
+    def validate_user_email(self, user_email): #Checks if the email is in use
+        if self.user_email:
+            user = User.query.filter_by(email=user_email.data).first()
+            if user is not None:
+                raise ValidationError("Email already in use!")
