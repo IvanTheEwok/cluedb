@@ -2,4 +2,12 @@
 
 {% block app_content %}
     <p>Hello world!</p>
+    {% if current_user.is_authenticated %}
+        <p>Hi {{ current_user.username }}, id: {{ current_user.id }}</p>
+        {% if current_user.id in site_admins %}
+            <p>You're the admin! You got superpowers!!</p>
+        {% else %}
+            <p>You're not admin :c</p>
+        {% endif %}    
+    {% endif %}
 {% endblock %}
