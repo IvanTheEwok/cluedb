@@ -16,13 +16,19 @@
                 {% endif %}
                 <p>{{ user.followers.count() }} followers, {{ user.followed.count() }} following.</p>
                 {% if current_user.is_authenticated %}
-                    {% if user == current_user %}
+                    {% if user == current_user or current_user.id in site_admins %}
                         <p><a href="{{ url_for("main.edit_profile") }}">Edit profile</a></p>
                     {% elif not current_user.is_following(user) %}
                         <p><a href="{{ url_for("main.follow", username=user.username.lower()) }}">Follow</a></p>
                     {% else %}
                         <p><a href ="{{ url_for("main.unfollow", username=user.username.lower()) }}">Unfollow</a></p>
                     {% endif %}
+                {% endif %}
+                {% if current_user.id in site_admins %}
+                    <p>UID: {{ user.id }}</p>
+                    <p>Email: {{ user.email }}</p>
+                    <p>Admin: {% if user.id in site_admins %}yes{% else %}no{% endif %}</p>
+                {% else %}
                 {% endif %}
             </td>
         </tr>
