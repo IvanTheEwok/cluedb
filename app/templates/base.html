@@ -8,6 +8,11 @@
     {% endif %}
 {% endblock %}
 
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css">
+    <link href="{{bootstrap_find_resource('css/bootstrap.css', cdn='bootstrap')}}" rel="stylesheet">
+{% endblock %}
+
 {% block navbar %}
     <nav class="navbar navbar-inverse navbar-static-top">
         <div class="container">
@@ -54,4 +59,26 @@
 {% block scripts %}
     {{ super() }}
     {{ moment.include_moment() }}
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+    <script>
+        window.addEventListener("load", function(){
+        window.cookieconsent.initialise({
+        "palette": {
+            "popup": {
+            "background": "#000",
+            "text": "#ff0000"
+            },
+            "button": {
+            "background": "transparent",
+            "border": "#ff0000",
+            "text": "#ff0000"
+            }
+        },
+        "position": "bottom-right",
+        "content": {
+            "dismiss": "Got it!"
+        }
+        })});
+    </script>
 {% endblock %}
