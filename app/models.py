@@ -23,7 +23,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
-    clues = db.relationship("Clue", backref="player", lazy="dynamic")
+    clues = db.relationship("Clue", backref="player", lazy="dynamic", cascade="delete")
     followed = db.relationship(
         "User",
         secondary=followers,
@@ -79,7 +79,7 @@ class Clue(db.Model):
     stages = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    items = db.relationship("Item", backref="clue", lazy="dynamic")
+    items = db.relationship("Item", backref="clue", lazy="dynamic", cascade="delete")
 
     def __repr__(self):
         return "<Clue {id}, {tier}>".format(id=self.id, tier=self.tier)
