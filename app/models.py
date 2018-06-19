@@ -86,13 +86,18 @@ class Clue(db.Model):
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    item = db.Column(db.String(50))
+    name = db.Column(db.String(50))
+    rs_id = db.Column(db.Integer)
     amount = db.Column(db.Integer)
     value_each = db.Column(db.Integer)
     clue_id = db.Column(db.Integer, db.ForeignKey("clue.id"))
 
     def __repr__(self):
         return "<Item {item}, amount {amount}>".format(item=self.item, amount=self.amount)
+
+class Rs_items(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
     
 @login.user_loader
 def load_user(id):
