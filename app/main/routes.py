@@ -128,7 +128,7 @@ def add_rs_items():
         db.session.add(item)
     db.session.commit()
 
-@bp.route("item/<rs_item>")
+@bp.route("/item/<rs_item>")
 def item(rs_item):
     item = Rs_items.query.filter_by(name=rs_item).first()
     return render_template(
