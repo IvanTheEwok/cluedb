@@ -5,6 +5,7 @@ from flask_login import current_user, login_required
 from datetime import datetime
 from app.models import User, Clue
 from app.main.forms import EditProfileForm, EditProfileFormAdmin
+import json
 
 @bp.route("/")
 @bp.route("/index")
@@ -20,7 +21,7 @@ def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
-    
+
 @bp.route("/user/<username>")
 def user(username):
     site_admins = current_app.config["SITE_ADMINS"]
@@ -111,8 +112,26 @@ def unfollow(username):
     if user == current_user:
         flash("You can't unfollow yourself")
         return redirect(rul_for("main.user", username=username))
-    
+
     current_user.unfollow(user)
     db.session.commit()
     flash("You are not following {} anymore.".format(username))
     return redirect(url_for("main.user", username=username))
+
+@bp.route("/add_rs_items")
+def add_rs_items():
+    json_data = open('objects_87.json').read()
+    data = json.loads(json_data)
+
+    for i in data:
+        item = Rs_items(id=i["id"], name=i["name"].lower())
+        db.session.add(item)
+    db.session.commit()
+
+@bp.route("item/<rs_item>")
+def item(rs_item):
+    item = Rs_items.query.filter_by(name=rs_item).first()
+    return render_template(
+        "main/item.html",
+        title=item.name
+    )
