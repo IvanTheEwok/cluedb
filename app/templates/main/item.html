@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block app_content %}
+	<img src={{ icon_url  }}>
 	<p>item: {{ item.name }}</p>
 	<p>id: {{ item.id }}</p>
+	<p>price: {{ price }}</p>
 {% endblock %}

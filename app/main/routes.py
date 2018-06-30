@@ -6,6 +6,7 @@ from datetime import datetime
 from app.models import User, Clue, Rs_items
 from app.main.forms import EditProfileForm, EditProfileFormAdmin
 import json
+import urllib
 
 @bp.route("/")
 @bp.route("/index")
@@ -120,19 +121,31 @@ def unfollow(username):
 
 @bp.route("/add_rs_items")
 def add_rs_items():
-    json_data = open('objects_87.json').read()
+    json_data = open('app/main/rs_items.json').read()
     data = json.loads(json_data)
 
     for i in data:
         item = Rs_items(id=i["id"], name=i["name"].lower())
         db.session.add(item)
     db.session.commit()
-    return redirect(url_for("index"))
+    return redirect(url_for("main.index"))
 
 @bp.route("/item/<rs_item>")
 def item(rs_item):
+    #Replace the - in the url with a space for a database query
+    rs_item = rs_item.replace("-", " ")
     item = Rs_items.query.filter_by(name=rs_item).first()
+
+    #Pulling data form Runescape
+    api_url = "http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item={}".format(item.id)
+    response = urllib.urlopen(api_url)
+    data = json.loads(response.read())
+    icon_url = data["item"]["icon_large"]
+    price = data["item"]["current"]["price"]
     return render_template(
         "main/item.html",
-        title=item.name
+        title=item.name,
+        item=item,
+        price=price,
+        icon_url=icon_url
     )
