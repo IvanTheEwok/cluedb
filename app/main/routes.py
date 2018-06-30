@@ -111,7 +111,7 @@ def unfollow(username):
         return redirect(url_for("main.index"))
     if user == current_user:
         flash("You can't unfollow yourself")
-        return redirect(rul_for("main.user", username=username))
+        return redirect(url_for("main.user", username=username))
 
     current_user.unfollow(user)
     db.session.commit()
@@ -127,6 +127,7 @@ def add_rs_items():
         item = Rs_items(id=i["id"], name=i["name"].lower())
         db.session.add(item)
     db.session.commit()
+    return redirect(url_for("index"))
 
 @bp.route("/item/<rs_item>")
 def item(rs_item):
