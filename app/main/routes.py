@@ -3,7 +3,7 @@ from app.main import bp
 from app import db
 from flask_login import current_user, login_required
 from datetime import datetime
-from app.models import User, Clue
+from app.models import User, Clue, Rs_items
 from app.main.forms import EditProfileForm, EditProfileFormAdmin
 import json
 
